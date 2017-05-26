@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+      Teste 128Bits - {{codigo}}
+    </title>    
+  </head>
+
+<body>  
+  <br>
+  <br>
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+
+    {% if messages %}
+      <ul class="messages">
+        {% for msg in messages %}       
+          <li>
+            <div class="alert alert-{{msg.level_tag}}" role="alert">
+              {{msg.message}}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    <div class="page-header">
+      <h1>Teste 128Bits - Editar</h1>
+    </div>
+
+    <form method="post" action="./salvar">{% csrf_token %}
+      
+      <div class="form-group">
+        <label for="email">Campo1:</label>
+        <input type="text" class="form-control" id="email" required="required" readonly="readonly" value="{{editar.campo1}}">
+      </div>
+
+      <div class="form-group">
+        <label for="pwd">Campo2</label>
+        <!-- <input type="password" class="form-control" id="pwd"> -->
+        <textarea name="campo2" class="form-control" rows="8">{{editar.campo2}}</textarea>
+      </div>
+
+      <input type="hidden" name="id" value="{{editar.campo1}}">
+
+      <button type="submit" class="btn btn-success">Alterar</button>
+      <a href="./" class="btn btn-danger">Voltar</a>
+
+    </form> 
+
+  </div>
+
+</body>
+
+</html>
+
+
+ <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 

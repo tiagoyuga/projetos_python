@@ -1,18 +1,228 @@
-<html>
-    <head>
-        <title>Ola's blog</title>
-    </head>
-    <body>
-        <p>Hi there!</p>
-        <p>It works!</p>
-        
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-        <ul>        	
-	        {% for dados in dadosModelo %}
-	        	<li>
-	        		{{dados.campo1}} - {{dados.campo2}}
-	        	</li><br>
-	        {% endfor %}
-        </ul>
-    </body>
-</html>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<title>
+		Teste 128Bits
+	</title>
+	
+  	
+</head>
+
+<body>  
+<br>
+<br>
+<div class="col-md-2"></div>
+<div class="col-md-8">
+
+	{% if messages %}
+	<ul class="messages">
+	    {% for msg in messages %}       
+	    <li>
+	        <div class="alert alert-{{msg.level_tag}}" role="alert">
+	 	{{msg.message}}
+		</div>
+	    </li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
+	<br>
+
+	<div>		
+		<a href="./" class="separator link">Home</a>
+		<span> </span>
+		<a href="./sobre" class="separator link active">Sobre</a>
+	</div>
+	
+	<div class="page-header">
+		<h1>Teste 128Bits </h1>
+	</div>
+	
+	<!-- Example Tables Card -->
+	<div class="card mb-3">
+	    <div class="card-header">
+	        <i class="fa fa-table"></i> <!-- Data Table Example -->
+	        <input type="text" name="pesquisa" id="pesquisa" class="input" placeholder="Pesquisar..." onkeypress="pesquisa()">
+
+	        <div id="autocomplete" style="display: none;">
+			  	<!--  -->
+			</div>
+
+	    </div>
+	    <br>
+
+	    <div class="card-block">
+	    
+	        <div class="table-responsive">
+		        
+		        <div class="">
+				    
+				    <span class="step-links">
+				        {% if paginacao.has_previous %}
+				            <a href="?page={{ paginacao.previous_page_number }}">previous</a>
+				        {% endif %}
+
+				        <span class="current">
+				            Page {{ paginacao.number }} of {{ paginacao.paginator.num_pages }}.
+				        </span>
+
+				        {% if paginacao.has_next %}
+				            <a href="?page={{ paginacao.next_page_number }}">next</a>
+				        {% endif %}
+				        <span> (Total de registros: {{paginacao.paginator.count}})</span>
+				    </span>
+				</div>
+
+				<ul class="pagination">
+					{% for i in paginacao.paginator.page_range %}
+						<li><a href="./?page={{i}}">{{i}}</a></li>
+					{% endfor %}
+				</ul> 
+
+				<div class="tabela_modelo">
+					<table class="table table-bordered table-hover table-responsive"  id="dataTable" cellspacing="0" id="dataTable">			
+
+		                <thead>
+		                    <tr>
+		                        <th width="30%">
+		                        	<center>
+		                        		<a href="novo" alt="Novo" title="Novo Registro" class="btn btn-success btn-sm">
+								        	<span class="glyphicon glyphicon-plus"></span>
+								        </a>
+		                        	</center>
+		                        </th>
+		                        <th>Campo1</th>
+		                        <th>Campo2</th>
+		                    </tr>
+		                </thead>
+		                <tfoot>
+		                    <tr>
+		                        <th><center>#</center></th>	                        
+		                        <th>Campo1</th>
+		                        <th>Campo2</th>
+		                    </tr>
+		                </tfoot>
+		                <tbody id="body_tabela_modelo">
+
+		                	{% for dados in paginacao %}
+			                    <tr>
+			                        <td width="30%">
+			                        	<center>
+			                        		<a href="#" alt="Excluir" title="Remover Registro" class="btn btn-danger btn-sm" onclick="confirmar_exclusao('{{dados.campo1}}')">
+									        	<span class="glyphicon glyphicon-remove"></span>
+									        </a>
+									        <a href="#" alt="Editar" title="Editar Registro" class="btn btn-warning btn-sm" onclick="editar('{{dados.campo1}}')">
+									        	<span class="glyphicon glyphicon-edit"></span>
+									        </a>
+			                        	</center>
+			                        </td>	                        
+			                        <td width="20%">{{dados.campo1}}</td>
+			                        <td width="50">{{dados.campo2}}</td>
+			                    </tr>
+
+			                {% endfor %}
+		                    
+		                </tbody>
+
+		            </table>
+		        </div>
+
+	            <div class="">
+				    
+				    <span class="step-links">
+
+				        {% if paginacao.has_previous %}
+				            <a href="?page={{ paginacao.previous_page_number }}">previous</a>
+				        {% endif %}
+
+				        <span class="current">
+				            Page {{ paginacao.number }} of {{ paginacao.paginator.num_pages }}.
+				        </span>
+
+				        {% if paginacao.has_next %}
+				            <a href="?page={{ paginacao.next_page_number }}">next</a>
+				        {% endif %}
+				    </span>
+				</div>
+
+	        </div>
+	    </div>
+
+	    <div class="card-footer small text-muted">
+	      	<a href="#" class=""></a>
+	    </div>
+	</div>
+</div>
+
+<div class="col-md-2"></div>
+
+</body>
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+
+<script type="text/javascript">
+	
+	function editar(id) {
+		window.location.assign("/editar?id="+id);
+	}
+
+	function visualizar_selecionado(val) {
+		editar($(val).val())
+	}
+
+	function confirmar_exclusao(id) {
+		
+		if(confirm("Deseja realmente excluir este registro?")){
+			window.location.assign("/remover?id="+id);
+		}
+	}
+
+	function pesquisa() {
+		valor = $("#pesquisa").val();
+		if (valor.length >= 2) { //array comeca no indice 0
+
+			$("#autocomplete").css("display","block");
+		} else {
+			$("#autocomplete").css("display","none");
+			return false;
+		}
+
+		$.ajax({
+			method: "get",
+			dataType:"json",
+			url: "pesquisar",
+			data: {pesquisa:valor},
+			//async:false,
+			success: function(resposta) {				
+				if (resposta.success == true) {					
+					dadosJson = JSON.parse(resposta['objModelo'])					
+					var html = '';
+					html += '<div class="form-group">';
+					html +=  	'<select class="form-control" id="selecionado" multiple onclick="visualizar_selecionado(this)">';
+					for (var i = 0; i < resposta['qtdRegistros']; i++) {						
+						html += '<option value="'+dadosJson[i].fields.campo1+'">'+dadosJson[i].fields.campo1+" -> "+dadosJson[i].fields.campo2+'</option>';
+					}
+					html += '</select>';
+					html += '</div>';
+
+					$("#autocomplete").css("display","block");
+					$("#autocomplete").html(html);
+					//$("#body_tabela_modelo").html(html);
+				} else {
+					$("#autocomplete").css("display","none");					
+					//$("#body_tabela_modelo").html("<tr><td colspan='3'><center>Nenhum registro encontrado!</center></td></tr>");
+				}
+			}
+		});
+	}
+
+</script>
